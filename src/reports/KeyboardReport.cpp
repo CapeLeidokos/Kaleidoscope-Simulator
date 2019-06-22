@@ -54,9 +54,14 @@ namespace simulator {
       
 bool 
    KeyboardReport
-      ::operator==(const KeyboardReport &other) const
+      ::equals(const papilio::Report_ &other) const
 {
-   return memcmp(&report_data_, &other.report_data_, sizeof(report_data_)) == 0;
+   const KeyboardReport *other_kr =
+      dynamic_cast<const KeyboardReport *>(&other);
+      
+   if(!other_kr) { return false; }
+   
+   return memcmp(&report_data_, &other_kr->report_data_, sizeof(report_data_)) == 0;
 }
       
 bool 

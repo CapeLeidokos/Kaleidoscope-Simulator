@@ -19,7 +19,7 @@
 #pragma once
 
 #include "kaleidoscope/key_defs.h"
-#include "reports/Report_.h"
+#include "papilio/src/reports/BootKeyboardReport_.h"
 
 // Undefine some macros defined by Arduino
 //
@@ -37,7 +37,7 @@ class Simulator;
   
 /// @brief An interface hat facilitates analyzing boot keyboard reports.
 ///
-class BootKeyboardReport : public Report_ {
+class BootKeyboardReport : public papilio::BootKeyboardReport_ {
    
    public:
       
@@ -65,54 +65,54 @@ class BootKeyboardReport : public Report_ {
       /// @param other Another key report to compare with.
       /// @returns [bool] True if both reports are equal.
       ///
-      bool operator==(const BootKeyboardReport &other) const;
+      virtual bool equals(const papilio::Report_ &other) const override;
       
       /// @brief Checks if a keycode is active in the keyboard report.
       /// @param keycode The keycode to check for.
       /// @returns [bool] True if the given keycode is active.
       ///
-      bool isKeycodeActive(uint8_t keycode) const;
+      virtual bool isKeycodeActive(uint8_t keycode) const override;
       
       /// @brief Checks if the keycode of a given Key is active in the keyboard report.
       /// @details Please note that the flags part of the Key is ignored.
       /// @param key The Key whose keycode to check for.
       /// @returns [bool] True if the given Key's keycode is active.
       ///
-      bool isKeyActive(const Key &key) const;
+      virtual bool isKeyActive(const Key &key) const override;
       
       /// @brief Retreives a list of all keycodes that are active in the
       ///        keyboard report.
       /// @returns A vector of keycodes.
       ///
-      std::vector<uint8_t> getActiveKeycodes() const;
+      virtual std::vector<uint8_t> getActiveKeycodes() const override;
       
       /// @brief Checks if a modifier keycode is active in the keyboard report.
       /// @param keycode The modifier keycode to check for.
       /// @returns [bool] True if the given modifier keycode is active.
       ///
-      bool isModifierKeycodeActive(uint8_t modifier) const;
+      virtual bool isModifierKeycodeActive(uint8_t modifier) const override;
       
       /// @brief Checks if the modifier keycode of a given Key is active in the keyboard report.
       /// @details Please note that the flags part of the Key is ignored.
       /// @param key The Key whose modifier keycode to check for.
       /// @returns [bool] True if the given Key's modifier keycode is active.
       ///
-      bool isModifierKeyActive(const Key &key) const;
+      virtual bool isModifierKeyActive(const Key &key) const override;
       
       /// @brief Checks if any modifier keycode is active.
       /// @returns [bool] True if any modifier keycode is active, false otherwise.
       ///
-      bool isAssertAnyModifierActive() const;
+      virtual bool isAssertAnyModifierActive() const override;
       
       /// @brief Checks if any key keycode is active.
       /// @returns [bool] True if any key keycode is active, false otherwise.
       ///
-      bool isAnyKeyActive() const;
+      virtual bool isAnyKeyActive() const override;
       
       /// @brief Retreives a list of active modifier keycodes.
       /// @returns A list of active modifier keycodes.
       ///
-      std::vector<uint8_t> getActiveModifiers() const;
+      virtual std::vector<uint8_t> getActiveModifiers() const override;
       
       /// @brief Checks if the report is empty.
       /// @details Empty means neither key nor modifier keycodes are active.

@@ -18,44 +18,37 @@
 
 #pragma once
 
-#include "actions/generic_report/ReportAction.h"
+#include "papilio/Simulator.h"
 
 namespace kaleidoscope {
 namespace simulator {
-namespace actions {
-
-/// @brief Asserts nothing but dumps the current report instead.
-///
-class DumpReport {
    
+class SimulatorCore : public papilio::SimulatorCore_
+{
    public:
-      
-      KT_ACTION_STD_CONSTRUCTOR(DumpReport)
-   
-   private:
-      
-      class Action : public ReportAction_ {
-            
-         public:
 
-            virtual void describe(const char *add_indent = "") const override {
-               this->getReport().dump(*this->getSimulator(), add_indent);
-            }
+      virtual void init() override;
 
-            virtual void describeState(const char *add_indent = "") const {
-               this->describe(add_indent);
-            }
+      virtual void getKeyMatrixDimensions(uint8_t &rows, uint8_t &cols) override;
 
-            virtual bool evalInternal() override {
-               this->describe();
-               return true;
-            }
+      virtual void pressKey(uint8_t row, uint8_t col) override;
 
-      };
-   
-   KT_AUTO_DEFINE_ACTION_INVENTORY(DumpReport)
+      virtual void releaseKey(uint8_t row, uint8_t col) override;
+
+      virtual void tapKey(uint8_t row, uint8_t col) override;
+
+      virtual bool isKeyPressed(uint8_t row, uint8_t col) override;
+
+      virtual void getCurrentKeyLEDColor(uint8_t row, uint8_t col, 
+                                  uint8_t &red, uint8_t &green, uint8_t &blue) override;
+
+      virtual void getCurrentKeyLabel(uint8_t row, uint8_t col,
+                                      std::string &label_string) override;
+
+      virtual void setTime(uint32_t time) override;
+
+      virtual const char *keycodeToName(uint8_t keycode) override;
 };
 
-} // namespace actions
 } // namespace simulator
 } // namespace kaleidoscope

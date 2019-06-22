@@ -19,7 +19,7 @@
 #pragma once
 
 #include "MultiReport/Mouse.h"
-#include "reports/Report_.h"
+#include "papilio/src/reports/MouseReport_.h"
 
 // Undefine some macros defined by Arduino
 //
@@ -65,48 +65,48 @@ class MouseReport : public Report_ {
       /// @param other Another report to compare with.
       /// @returns [bool] True if both reports are equal.
       ///
-      bool operator==(const MouseReport &other) const;
+      virtual bool equals(const MouseReport &other) const override;
       
       /// @brief Checks if a set of buttons is pressed.
       /// @param button_state The state of the mouse buttons to check.
       /// @returns True if the button state matches the given one.
       ///
-      bool areButtonsPressed(uint8_t button_state) const;
+      virtual bool areButtonsPressed(uint8_t button_state) const override;
       
       /// @brief Queries if the left button is pressed.
       /// @returns True if the left button is pressed.
       ///
-      bool isLeftButtonPressed() const; 
+      virtual bool isLeftButtonPressed() const override;
       
       /// @brief Queries if the middle button is pressed.
       /// @returns True if the middle button is pressed.
       ///
-      bool isMiddleButtonPressed() const;  
+      virtual bool isMiddleButtonPressed() const override; 
       
       /// @brief Queries if the right button is pressed.
       /// @returns True if the right button is pressed.
       ///
-      bool isRightButtonPressed() const;
+      virtual bool isRightButtonPressed() const override;
       
       /// @brief Queries the x-movement stored in the report.
       /// @returns The x-movement.
       ///
-      int8_t getXMovement() const;
+      virtual int8_t getXMovement() const override;
       
       /// @brief Queries the y-movement stored in the report.
       /// @returns The y-movement.
       ///
-      int8_t getYMovement() const;
+      virtual int8_t getYMovement() const override;
       
       /// @brief Queries the verical wheel movement.
       /// @returns The vertical wheel movement.
       ///
-      int8_t getVerticalWheel() const;  
+      virtual int8_t getVerticalWheel() const override;
       
       /// @brief Queries the horizontal wheel movement.
       /// @returns The horizontal wheel movement.
       ///
-      int8_t getHorizontalWheel() const;
+      virtual int8_t getHorizontalWheel() const override;
           
       /// @brief Checks if the report is empty.
       /// @details Empty means that no buttons are active and

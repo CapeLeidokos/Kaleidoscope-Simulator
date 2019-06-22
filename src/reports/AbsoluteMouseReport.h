@@ -19,7 +19,7 @@
 #pragma once
 
 #include "DeviceAPIs/AbsoluteMouseAPI.h"
-#include "reports/Report_.h"
+#include "papilio/src/reports/AbsoluteMouseReport_.h"
 
 // Undefine some macros defined by Arduino
 //
@@ -37,14 +37,11 @@ class Simulator;
   
 /// @brief An interface hat facilitates analyzing absolute mouse reports.
 ///
-class AbsoluteMouseReport : public Report_ {
+class AbsoluteMouseReport : public papilio::AbsoluteMouseReport_ {
    
    public:
       
       typedef HID_MouseAbsoluteReport_Data_t ReportDataType;
-      
-      static constexpr uint8_t hid_report_type_ 
-            = HID_REPORTID_MOUSE_ABSOLUTE;
       
       static constexpr uint16_t max_x_coordinate = 32767;
       static constexpr uint16_t max_y_coordinate = 32767;
@@ -71,43 +68,43 @@ class AbsoluteMouseReport : public Report_ {
       /// @param other Another report to compare with.
       /// @returns [bool] True if both reports are equal.
       ///
-      bool operator==(const AbsoluteMouseReport &other) const;
+      virtual bool equals(const papilio::Report_ &other) const override;
       
       /// @brief Checks if a set of buttons is pressed.
       /// @param button_state The state of the mouse buttons to check.
       /// @returns True if the button state matches the given one.
       ///
-      bool areButtonsPressed(uint8_t button_state) const;
+      virtual bool areButtonsPressed(uint8_t button_state) const override;
       
       /// @brief Queries if the left button is pressed.
       /// @returns True if the left button is pressed.
       ///
-      bool isLeftButtonPressed() const; 
+      virtual bool isLeftButtonPressed() const override;
       
       /// @brief Queries if the middle button is pressed.
       /// @returns True if the middle button is pressed.
       ///
-      bool isMiddleButtonPressed() const;  
+      virtual bool isMiddleButtonPressed() const override;
       
       /// @brief Queries if the right button is pressed.
       /// @returns True if the right button is pressed.
       ///
-      bool isRightButtonPressed() const;  
+      virtual bool isRightButtonPressed() const override;
       
       /// @brief Queries the absolute x-position.
       /// @returns The absolute x-position.
       ///
-      uint16_t getXPosition() const;
+      virtual uint16_t getXPosition() const override;
       
       /// @brief Queries the absolute y-position.
       /// @returns The absolute y-position.
       ///
-      uint16_t getYPosition() const;
+      virtual uint16_t getYPosition() const override;
             
       /// @brief Queries the absolute wheel-position.
       /// @returns The absolute wheel-position.
       ///
-      int8_t getWheelPosition() const;
+      virtual int8_t getWheelPosition() const override;
           
       /// @brief Checks if the report is empty.
       /// @details Empty means that no buttons are active and

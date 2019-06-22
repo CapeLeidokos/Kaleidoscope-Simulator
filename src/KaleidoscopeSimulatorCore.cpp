@@ -16,16 +16,77 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Important: Leave stdint.h to be first header. Some Kaleidoscope stuff
-//            relies on standard integers being defined, which is done
-//            by Arduino auto-magically and is missign in virtual builds.
-//
-#include <stdint.h>
+#include "KaleidoscopeSimulator.h"
 
-#include "kaleidoscope/key_defs.h"
+#include "Kaleidoscope.h"
 
 namespace kaleidoscope {
 namespace simulator {
+   
+unsigned long millis = 0;
+   
+void SimulatorCore::init()
+{
+   kaleidoscope::hid::initializeKeyboard();
+}
+
+void SimulatorCore::getKeyMatrixDimensions(uint8_t &rows, uint8_t &cols)
+{
+   row = KeyboardHardware.matrix_rows;
+   cols = KeyboardHardware.matrix_columns;
+}
+
+void SimulatorCore::pressKey(uint8_t row, uint8_t col)
+{
+   KeyboardHardware.setKeystate(row, col, Virtual::PRESSED);
+}
+
+void SimulatorCore::releaseKey(uint8_t row, uint8_t col)
+{
+   KeyboardHardware.setKeystate(row, col, Virtual::NOT_PRESSED);
+}
+
+void SimulatorCore::tapKey(uint8_t row, uint8_t col)
+{
+   KeyboardHardware.setKeystate(row, col, Virtual::TAP);
+}
+
+bool SimulatorCore::isKeyPressed(uint8_t row, uint8_t col)
+{
+   return KeyboardHardware.getKeystate(row, col) == Virtual::PRESSED;
+}
+
+void SimulatorCore::getCurrentKeyLEDColor(uint8_t row, uint8_t col, 
+                                  uint8_t &red, uint8_t &green, uint8_t &blue)
+{
+   auto color = KeyboardHardware.getCrgbAt(row, col);
+   
+   red = color.r;
+   green = color.g;
+   blue = color.b;
+}
+
+void SimulatorCore::getCurrentKeyLabel(uint8_t row, uint8_t col,
+                                      std::string &label_string)
+{
+   auto key = Layer.lookupOnActiveLayer(row, col);
+         
+   if(key.flags == KEY_FLAGS) {
+      
+      // Map the keycode to a string that matches the key
+      //            
+      auto it = hid_code_to_string.find(key.keyCode);
+      if(it != hid_code_to_string.end()) {
+         label_string = it->second;
+      }
+   }
+}
+
+void SimulatorCore::setTime(uint32_t time)
+{
+   millis = time;
+}
+
 namespace keycodes {
    
 #define FOR_ALL_KEYBOARD(FUNC) \
@@ -245,7 +306,7 @@ namespace keycodes {
    FUNC(RightAlt) \
    FUNC(RightGui)
 
-const char *keycodeToName(uint8_t keycode) {
+const char *SimulatorCore::keycodeToName(uint8_t keycode)
    
    switch(keycode) {
       
@@ -259,7 +320,10 @@ const char *keycodeToName(uint8_t keycode) {
 
    return "";
 }
-
-} // namespace keycodes
+      
 } // namespace simulator
 } // namespace kaleidoscope
+
+unsigned long millis(void) {
+  return kaleidoscope::simulator::millis;
+}

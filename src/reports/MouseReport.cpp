@@ -40,9 +40,14 @@ namespace simulator {
    this->setReportData(report_data);
 }
 
-bool MouseReport::operator==(const MouseReport &other) const
+bool MouseReport::equals(const MouseReport &other) const
 {
-   return memcmp(&report_data_, &other.report_data_, sizeof(report_data_)) == 0;
+   const MouseReport *other_mr =
+      dynamic_cast<const MouseReport *>(&other);
+      
+   if(!other_mr) { return false; }
+   
+   return memcmp(&report_data_, &other_mr->report_data_, sizeof(report_data_)) == 0;
 }
       
 bool MouseReport::areButtonsPressed(uint8_t button_state) const

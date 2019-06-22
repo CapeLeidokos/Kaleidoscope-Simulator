@@ -18,14 +18,20 @@
 
 #pragma once
 
-namespace kaleidoscope {
-namespace simulator {
-namespace keycodes {
-   
-/// @brief Returns a string representation of a keycode.
-///
-const char *keycodeToName(uint8_t keycode);
+#include "papilio/Simulator.h"
 
-} // namespace keycodes
+/// @namespace kaleidoscope
+///
+namespace kaleidoscope {
+
+/// @namespace simulator
+///
+namespace simulator {
+   
+class Simulator : public papilio::Simulator
+{
+   Simulator();
+};
+
 } // namespace simulator
 } // namespace kaleidoscope

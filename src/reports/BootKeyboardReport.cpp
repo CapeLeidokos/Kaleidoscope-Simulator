@@ -55,9 +55,14 @@ namespace simulator {
       
 bool 
    BootKeyboardReport
-      ::operator==(const BootKeyboardReport &other) const
-{
-   return memcmp(&report_data_, &other.report_data_, sizeof(report_data_)) == 0;
+      ::equals(const papilio::Report_ &other) const
+{   
+   const BootKeyboardReport *other_bkr =
+      dynamic_cast<const BootKeyboardReport *>(&other);
+      
+   if(!other_bkr) { return false; }
+   
+   return memcmp(&report_data_, &other_bkr->report_data_, sizeof(report_data_)) == 0;
 }
       
 bool 

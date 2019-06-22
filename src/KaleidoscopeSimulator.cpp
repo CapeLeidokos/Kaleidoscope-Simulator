@@ -16,26 +16,18 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-
-#include "Kaleidoscope.h"
+#include "KaleidoscopeSimulator.h"
+#include "KaleidoscopeSimulatorCore.h"
 
 namespace kaleidoscope {
 namespace simulator {
    
-class Simulator;
+   Simulator::Simulator()
+{
+   simulator_core_ = std::shared_ptr<KaleidoscopeSimulatorCore>{
+                        new KaleidoscopeSimulatorCore{}
+                     };
+}
 
-/// @brief Dumps the state of the key LEDs as C++ code
-///
-void dumpKeyLEDState();
-
-/// @brief Compares the current state of the key LEDs to a representation
-///        stored in an array.
-/// @param key_led_colors An array of key LED state data to compare the current
-///                       state with.
-///
-void assertKeyLEDState(const Simulator &simulator,
-                       const cRGB *key_led_colors);
-   
 } // namespace simulator
 } // namespace kaleidoscope

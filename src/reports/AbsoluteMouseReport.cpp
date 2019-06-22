@@ -49,9 +49,14 @@ AbsoluteMouseReport &AbsoluteMouseReport::operator=(const AbsoluteMouseReport &o
    this->setReportData(report_data);
 }
 
-bool AbsoluteMouseReport::operator==(const AbsoluteMouseReport &other) const
+bool AbsoluteMouseReport::equals(const papilio::Report_ &other) const
 {
-   return memcmp(&report_data_, &other.report_data_, sizeof(report_data_)) == 0;
+   const AbsoluteMouseReport *other_amr =
+      dynamic_cast<const AbsoluteMouseReport *>(&other);
+      
+   if(!other_amr) { return false; }
+   
+   return memcmp(&report_data_, &other_amr->report_data_, sizeof(report_data_)) == 0;
 }
 
 bool AbsoluteMouseReport::areButtonsPressed(uint8_t button_state) const
