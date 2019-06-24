@@ -52,7 +52,12 @@ namespace simulator {
    
    this->setReportData(report_data);
 }
-      
+
+std::shared_ptr<Report_> BootKeyboardReport::clone() const
+{
+   return std::shared_ptr<Report_>{ new BootKeyboardReport{*this} };
+}
+
 bool 
    BootKeyboardReport
       ::equals(const papilio::Report_ &other) const

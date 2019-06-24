@@ -51,6 +51,11 @@ namespace simulator {
    
    this->setReportData(report_data);
 }
+
+std::shared_ptr<Report_> KeyboardReport::clone() const
+{
+   return std::shared_ptr<Report_>{ new KeyboardReport{*this} };
+}
       
 bool 
    KeyboardReport

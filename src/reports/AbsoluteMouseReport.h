@@ -64,6 +64,8 @@ class AbsoluteMouseReport : public papilio::AbsoluteMouseReport_ {
       
       AbsoluteMouseReport &operator=(const AbsoluteMouseReport &other);
       
+      virtual std::shared_ptr<Report_> clone() const override;
+      
       /// @brief Checks equality with another report.
       /// @param other Another report to compare with.
       /// @returns [bool] True if both reports are equal.

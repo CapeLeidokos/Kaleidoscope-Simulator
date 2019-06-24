@@ -28,7 +28,7 @@ namespace simulator {
    
 void runSimulator(Simulator &simulator) {
    
-   using namespace actions;
+   using namespace papilio::actions;
    
    //simulator.permanentKeyboardReportActions().add(DumpReport{});
    

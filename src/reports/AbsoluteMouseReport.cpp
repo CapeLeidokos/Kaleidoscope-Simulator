@@ -49,6 +49,11 @@ AbsoluteMouseReport &AbsoluteMouseReport::operator=(const AbsoluteMouseReport &o
    this->setReportData(report_data);
 }
 
+std::shared_ptr<Report_> AbsoluteMouseReport::clone() const
+{
+   return std::shared_ptr<Report_>{ new AbsoluteMouseReport{*this} };
+}
+
 bool AbsoluteMouseReport::equals(const papilio::Report_ &other) const
 {
    const AbsoluteMouseReport *other_amr =

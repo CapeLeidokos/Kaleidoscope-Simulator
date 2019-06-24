@@ -40,6 +40,11 @@ namespace simulator {
    this->setReportData(report_data);
 }
 
+std::shared_ptr<Report_> MouseReport::clone() const
+{
+   return std::shared_ptr<Report_>{ new MouseReport{*this} };
+}
+
 bool MouseReport::equals(const MouseReport &other) const
 {
    const MouseReport *other_mr =

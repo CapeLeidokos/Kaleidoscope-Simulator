@@ -61,6 +61,8 @@ class MouseReport : public Report_ {
       ///
       MouseReport(const HID_MouseReport_Data_t &report_data);
       
+      virtual std::shared_ptr<Report_> clone() const override;
+      
       /// @brief Checks equality with another report.
       /// @param other Another report to compare with.
       /// @returns [bool] True if both reports are equal.

@@ -61,6 +61,8 @@ class KeyboardReport : public papilio::KeyboardReport_ {
       ///
       KeyboardReport(const ReportDataType &report_data);
       
+      virtual std::shared_ptr<Report_> clone() const override;
+      
       /// @brief Checks equality with another key report.
       /// @param other Another key report to compare with.
       /// @returns [bool] True if both reports are equal.
