@@ -18,33 +18,26 @@
 
 #pragma once
 
-#include "Simulator.h"
-#include "Visualization.h"
-#include "aux/keycodes.h"
-#include "reports/KeyboardReport.h"
-#include "LED_Checks.h"
+namespace papilio {
+namespace actions {
+   
+inline
+uint8_t toModifier(Key key) { return key.keyCode; }
 
-#include "actions/Grouped.h"
-#include "actions/AssertLayerIsActive.h"
-#include "actions/AssertTopActiveLayerIs.h"
-#include "actions/CustomAction.h"
-#include "actions/AssertNumOverallReportsEquals.h"
-#include "actions/Action_.h"
-#include "actions/AssertCycleIsNth.h"
-#include "actions/AssertElapsedTimeGreater.h"
+inline
+uint8_t toKeycode(Key key) { return key.keyCode; }
 
-#include "actions/generic_report/AssertReportEmpty.h"
-#include "actions/generic_report/AssertReportEquals.h"
-#include "actions/generic_report/DumpReport.h"
-#include "actions/generic_report/AssertReportIsNthInCycle.h"
-#include "actions/generic_report/CustomReportAction.h"
-#include "actions/generic_report/AssertCycleGeneratesNReports.h"
-#include "actions/generic_report/GenerateHostEvent.h"
+} // namespace actions
+} // namespace papilio
 
-#include "actions/keyboard_report/AssertModifiersActive.h"
-#include "actions/keyboard_report/AssertAnyKeycodeActive.h"
-#include "actions/keyboard_report/AssertKeycodesActive.h"
-#include "actions/keyboard_report/AssertAnyModifierActive.h"
+#include "Papilio.h"
+#include "kaleidoscope_simulator/Simulator.h"
+#include "kaleidoscope_simulator/AglaisInterface.h"
+#include "papilio/Visualization.h"
+
+#include "kaleidoscope_simulator/actions/AssertLayerIsActive.h"
+#include "kaleidoscope_simulator/actions/AssertTopActiveLayerIs.h"
+#include "kaleidoscope_simulator/actions/generic_report/GenerateHostEvent.h"
 
 #include <iostream>
 

@@ -19,7 +19,7 @@
 #ifdef KALEIDOSCOPE_VIRTUAL_BUILD
 
 #include "Kaleidoscope-Simulator.h"
-#include "AglaisInterface.h"
+#include "kaleidoscope_simulator/AglaisInterface.h"
 
 #include <iostream>
 #include <sstream>

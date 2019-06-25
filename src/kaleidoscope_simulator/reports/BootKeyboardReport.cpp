@@ -22,10 +22,10 @@
 //
 #include <stdint.h>
 
-#include "reports/BootKeyboardReport.h"
-#include "aux/exceptions.h"
-#include "aux/keycodes.h"
-#include "Simulator.h"
+#include "kaleidoscope_simulator/reports/BootKeyboardReport.h"
+#include "kaleidoscope_simulator/aux/exceptions.h"
+#include "papilio/Simulator.h"
+#include "papilio/SimulatorCore_.h"
 
 #include <vector>
 
@@ -53,9 +53,9 @@ namespace simulator {
    this->setReportData(report_data);
 }
 
-std::shared_ptr<Report_> BootKeyboardReport::clone() const
+std::shared_ptr<papilio::Report_> BootKeyboardReport::clone() const
 {
-   return std::shared_ptr<Report_>{ new BootKeyboardReport{*this} };
+   return std::shared_ptr<papilio::Report_>{ new BootKeyboardReport{*this} };
 }
 
 bool 
@@ -97,13 +97,6 @@ std::vector<uint8_t>
    return active_keycodes;
 }
 
-bool  
-   BootKeyboardReport
-      ::isKeyActive(const Key_ &k) const
-{
-   return this->isKeycodeActive(k.keyCode);
-}
-
 bool   
    BootKeyboardReport
       ::isAnyKeyActive() const
@@ -130,13 +123,6 @@ bool
   
    return false;
 }  
-
-bool
-   BootKeyboardReport
-      ::isModifierKeyActive(const Key &key) const
-{
-   return this->isModifierKeycodeActive(key.keyCode);
-}
 
 bool 
    BootKeyboardReport
@@ -192,7 +178,7 @@ void
   if((bitfield) & 1<<7) stream << str7;
 void
    BootKeyboardReport
-      ::dump(const Simulator &simulator, const char *add_indent) const
+      ::dump(const papilio::Simulator &simulator, const char *add_indent) const
 {
    bool anything = false;
    if(report_data_.modifiers) {
@@ -221,7 +207,7 @@ void
 
       for(int i = 0; i < 6; ++i) {
          if(report_data_.keycodes[i] != 0) {
-            out << kaleidoscope::simulator::keycodes::keycodeToName(report_data_.keycodes[i]) << ' ';
+            out << simulator.getCore().keycodeToName(report_data_.keycodes[i]) << ' ';
          }
       }
    }

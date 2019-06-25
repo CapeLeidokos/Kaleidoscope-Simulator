@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "papilio/src/SimulatorCore_.h"
+#include "papilio/SimulatorCore_.h"
 
 namespace kaleidoscope {
 namespace simulator {
@@ -29,7 +29,7 @@ class SimulatorCore : public papilio::SimulatorCore_
 
       virtual void init() override;
 
-      virtual void getKeyMatrixDimensions(uint8_t &rows, uint8_t &cols) override;
+      virtual void getKeyMatrixDimensions(uint8_t &rows, uint8_t &cols) const override;
 
       virtual void pressKey(uint8_t row, uint8_t col) override;
 
@@ -37,17 +37,19 @@ class SimulatorCore : public papilio::SimulatorCore_
 
       virtual void tapKey(uint8_t row, uint8_t col) override;
 
-      virtual bool isKeyPressed(uint8_t row, uint8_t col) override;
+      virtual bool isKeyPressed(uint8_t row, uint8_t col) const override;
 
       virtual void getCurrentKeyLEDColor(uint8_t row, uint8_t col, 
-                                  uint8_t &red, uint8_t &green, uint8_t &blue) override;
+                                  uint8_t &red, uint8_t &green, uint8_t &blue) const override;
 
       virtual void getCurrentKeyLabel(uint8_t row, uint8_t col,
-                                      std::string &label_string) override;
+                                      std::string &label_string) const override;
 
       virtual void setTime(uint32_t time) override;
 
-      virtual const char *keycodeToName(uint8_t keycode) override;
+      virtual const char *keycodeToName(uint8_t keycode) const override;
+      
+      virtual void loop() override;
 };
 
 } // namespace simulator

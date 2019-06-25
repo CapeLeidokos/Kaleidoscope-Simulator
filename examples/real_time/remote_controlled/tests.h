@@ -19,8 +19,12 @@
 #ifdef KALEIDOSCOPE_VIRTUAL_BUILD
 
 #include "Kaleidoscope-Simulator.h"
-#include "vendors/keyboardio/model01.h"
-#include "aux/terminal_escape_sequences.h"
+#include "kaleidoscope_simulator/vendors/keyboardio/model01.h"
+#include "papilio/aux/terminal_escape_sequences.h"
+#include "kaleidoscope_simulator/reports/BootKeyboardReport.h"
+#include "kaleidoscope_simulator/reports/KeyboardReport.h"
+#include "kaleidoscope_simulator/reports/MouseReport.h"
+#include "kaleidoscope_simulator/reports/AbsoluteMouseReport.h"
 
 #include <iostream>
    
@@ -38,7 +42,8 @@ namespace simulator {
 void runSimulator(Simulator &simulator) {
    
    using namespace actions;
-   using namespace terminal_escape_sequences;
+   using namespace papilio::actions;
+   using namespace papilio::terminal_escape_sequences;
    
    simulator.permanentBootKeyboardReportActions().add(GenerateHostEvent<BootKeyboardReport>{});   
    simulator.permanentKeyboardReportActions().add(GenerateHostEvent<KeyboardReport>{});

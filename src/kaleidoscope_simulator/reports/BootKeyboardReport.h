@@ -19,7 +19,8 @@
 #pragma once
 
 #include "kaleidoscope/key_defs.h"
-#include "papilio/src/reports/KeyboardReportt_.h"
+#include "papilio/reports/BootKeyboardReport_.h"
+#include "BootKeyboard/BootKeyboard.h"
 
 // Undefine some macros defined by Arduino
 //
@@ -35,52 +36,52 @@ namespace simulator {
    
 class Simulator;
   
-/// @brief An interface hat facilitates analyzing keyboard reports.
+/// @brief An interface hat facilitates analyzing boot keyboard reports.
 ///
-class KeyboardReport : public papilio::KeyboardReport_ {
+class BootKeyboardReport : public papilio::BootKeyboardReport_ {
    
    public:
       
-      typedef HID_KeyboardReport_Data_t ReportDataType;
+      typedef HID_BootKeyboardReport_Data_t ReportDataType;
       
-      static constexpr uint8_t hid_report_type_ = HID_REPORTID_NKRO_KEYBOARD;
-      
+      static constexpr uint8_t hid_report_type_ = HID_REPORTID_KEYBOARD;
+
       /// @brief Default consturctor.
       /// @details Creates an empty report.
       ///
-      KeyboardReport();
+      BootKeyboardReport();
       
       /// @brief Constructs based on a raw pointer to report data.
       /// @details Only use this if you know what you are doning!
       /// @param data The address where the report data starts.
       ///
-      KeyboardReport(const void *data);
+      BootKeyboardReport(const void *data);
       
       /// @brief Constructs based on a report data object.
       /// @param report_data The report data object to read.
       ///
-      KeyboardReport(const ReportDataType &report_data);
+      BootKeyboardReport(const ReportDataType &report_data);
       
-      virtual std::shared_ptr<Report_> clone() const override;
+      template<typename..._Args>
+      static std::shared_ptr<BootKeyboardReport> create(_Args &&... args) {
+         return std::shared_ptr<BootKeyboardReport>{
+            new BootKeyboardReport{std::forward<_Args>(args)...}
+         };
+      }
+      
+      virtual std::shared_ptr<papilio::Report_> clone() const override;
       
       /// @brief Checks equality with another key report.
       /// @param other Another key report to compare with.
       /// @returns [bool] True if both reports are equal.
       ///
-      virtual bool equals(const KeyboardReport &other) const override;
+      virtual bool equals(const papilio::Report_ &other) const override;
       
       /// @brief Checks if a keycode is active in the keyboard report.
       /// @param keycode The keycode to check for.
       /// @returns [bool] True if the given keycode is active.
       ///
       virtual bool isKeycodeActive(uint8_t keycode) const override;
-      
-      /// @brief Checks if the keycode of a given Key is active in the keyboard report.
-      /// @details Please note that the flags part of the Key is ignored.
-      /// @param key The Key whose keycode to check for.
-      /// @returns [bool] True if the given Key's keycode is active.
-      ///
-      virtual bool isKeyActive(const Key &key) const override;
       
       /// @brief Retreives a list of all keycodes that are active in the
       ///        keyboard report.
@@ -93,13 +94,6 @@ class KeyboardReport : public papilio::KeyboardReport_ {
       /// @returns [bool] True if the given modifier keycode is active.
       ///
       virtual bool isModifierKeycodeActive(uint8_t modifier) const override;
-      
-      /// @brief Checks if the modifier keycode of a given Key is active in the keyboard report.
-      /// @details Please note that the flags part of the Key is ignored.
-      /// @param key The Key whose modifier keycode to check for.
-      /// @returns [bool] True if the given Key's modifier keycode is active.
-      ///
-      virtual bool isModifierKeyActive(const Key &key) const override;
       
       /// @brief Checks if any modifier keycode is active.
       /// @returns [bool] True if any modifier keycode is active, false otherwise.
@@ -125,7 +119,7 @@ class KeyboardReport : public papilio::KeyboardReport_ {
       ///        to the simulator's log stream.
       /// @param add_indent An additional indentation string.
       ///
-      virtual void dump(const Simulator &simulator, const char *add_indent = "") const override;
+      virtual void dump(const papilio::Simulator &simulator, const char *add_indent = "") const override;
       
       /// @brief Associates the object with new report data.
       /// @param report_data The new report data struct.

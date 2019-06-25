@@ -16,7 +16,7 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "vendors/keyboardio/model01.h"
+#include "kaleidoscope_simulator/vendors/keyboardio/model01.h"
 
 namespace kaleidoscope {
 namespace simulator {

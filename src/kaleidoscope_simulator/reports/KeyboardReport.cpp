@@ -22,9 +22,9 @@
 //
 #include <stdint.h>
 
-#include "reports/KeyboardReport.h"
-#include "aux/exceptions.h"
-#include "Simulator.h"
+#include "kaleidoscope_simulator/reports/KeyboardReport.h"
+#include "kaleidoscope_simulator/aux/exceptions.h"
+#include "papilio/Simulator.h"
 
 #include <vector>
 
@@ -52,9 +52,9 @@ namespace simulator {
    this->setReportData(report_data);
 }
 
-std::shared_ptr<Report_> KeyboardReport::clone() const
+std::shared_ptr<papilio::Report_> KeyboardReport::clone() const
 {
-   return std::shared_ptr<Report_>{ new KeyboardReport{*this} };
+   return std::shared_ptr<papilio::Report_>{ new KeyboardReport{*this} };
 }
       
 bool 
@@ -99,13 +99,6 @@ std::vector<uint8_t>
    return activeKeys;
 }
 
-bool  
-   KeyboardReport
-      ::isKeyActive(const Key_ &k) const
-{
-   return this->isKeycodeActive(k.keyCode);
-}
-
 bool   
    KeyboardReport
       ::isAnyKeyActive() const
@@ -133,13 +126,6 @@ bool
   
    return false;
 }  
-
-bool
-   KeyboardReport
-      ::isModifierKeyActive(const Key &key) const
-{
-   return this->isModifierKeycodeActive(key.keyCode);
-}
 
 bool 
    KeyboardReport
@@ -193,9 +179,10 @@ void
   if((bitfield) & 1<<5) stream << str5; \
   if((bitfield) & 1<<6) stream << str6; \
   if((bitfield) & 1<<7) stream << str7;
+  
 void
    KeyboardReport
-      ::dump(const Simulator &simulator, const char *add_indent) const
+      ::dump(const papilio::Simulator &simulator, const char *add_indent) const
 {
   bool anything = false;
   if(report_data_.modifiers) anything = true;

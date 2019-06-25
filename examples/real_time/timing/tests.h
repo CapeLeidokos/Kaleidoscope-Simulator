@@ -19,7 +19,6 @@
 #ifdef KALEIDOSCOPE_VIRTUAL_BUILD
 
 #include "Kaleidoscope-Simulator.h"
-#include "aux/terminal_escape_sequences.h"
 
 #include <iostream>
 #include <ctime>

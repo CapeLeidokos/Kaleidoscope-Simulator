@@ -16,8 +16,8 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "reports/AbsoluteMouseReport.h"
-#include "Simulator.h"
+#include "kaleidoscope_simulator/reports/AbsoluteMouseReport.h"
+#include "papilio/Simulator.h"
 
 namespace kaleidoscope {
 namespace simulator {
@@ -49,9 +49,9 @@ AbsoluteMouseReport &AbsoluteMouseReport::operator=(const AbsoluteMouseReport &o
    this->setReportData(report_data);
 }
 
-std::shared_ptr<Report_> AbsoluteMouseReport::clone() const
+std::shared_ptr<papilio::Report_> AbsoluteMouseReport::clone() const
 {
-   return std::shared_ptr<Report_>{ new AbsoluteMouseReport{*this} };
+   return std::shared_ptr<papilio::Report_>{ new AbsoluteMouseReport{*this} };
 }
 
 bool AbsoluteMouseReport::equals(const papilio::Report_ &other) const
@@ -94,9 +94,14 @@ uint16_t AbsoluteMouseReport::getYPosition() const
    return report_data_.yAxis;
 }
 
-int8_t AbsoluteMouseReport::getWheelPosition() const
+int8_t AbsoluteMouseReport::getVerticalWheel() const
 {
    return report_data_.wheel;
+}
+
+int8_t AbsoluteMouseReport::getHorizontalWheel() const
+{
+   return 0;
 }
 
 bool AbsoluteMouseReport::isEmpty() const
@@ -107,7 +112,7 @@ bool AbsoluteMouseReport::isEmpty() const
        && (report_data_.wheel == 0);
 }
 
-void AbsoluteMouseReport::dump(const Simulator &simulator, const char *add_indent) const
+void AbsoluteMouseReport::dump(const papilio::Simulator &simulator, const char *add_indent) const
 {
   simulator.log() << add_indent << "Absolute mouse report content:";
   simulator.log() << add_indent << "  left button: " << this->isLeftButtonPressed();
@@ -115,7 +120,7 @@ void AbsoluteMouseReport::dump(const Simulator &simulator, const char *add_inden
   simulator.log() << add_indent << "  right button: " << this->isRightButtonPressed();
   simulator.log() << add_indent << "  x-axis position: " << (int)this->getXPosition();
   simulator.log() << add_indent << "  y-axis position: " << (int)this->getYPosition();
-  simulator.log() << add_indent << "  wheel position: " << (int)this->getWheelPosition();
+  simulator.log() << add_indent << "  wheel position: " << (int)this->getVerticalWheel();
 }
 
 void AbsoluteMouseReport::setReportData(const AbsoluteMouseReport::ReportDataType &report_data)

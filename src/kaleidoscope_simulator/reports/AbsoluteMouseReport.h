@@ -19,7 +19,7 @@
 #pragma once
 
 #include "DeviceAPIs/AbsoluteMouseAPI.h"
-#include "papilio/src/reports/AbsoluteMouseReport_.h"
+#include "papilio/reports/AbsoluteMouseReport_.h"
 
 // Undefine some macros defined by Arduino
 //
@@ -62,9 +62,16 @@ class AbsoluteMouseReport : public papilio::AbsoluteMouseReport_ {
       ///
       AbsoluteMouseReport(const ReportDataType &report_data);
       
+      template<typename..._Args>
+      static std::shared_ptr<AbsoluteMouseReport> create(_Args &&... args) {
+         return std::shared_ptr<AbsoluteMouseReport>{
+            new AbsoluteMouseReport{std::forward<_Args>(args)...}
+         };
+      }
+      
       AbsoluteMouseReport &operator=(const AbsoluteMouseReport &other);
       
-      virtual std::shared_ptr<Report_> clone() const override;
+      virtual std::shared_ptr<papilio::Report_> clone() const override;
       
       /// @brief Checks equality with another report.
       /// @param other Another report to compare with.
@@ -103,10 +110,15 @@ class AbsoluteMouseReport : public papilio::AbsoluteMouseReport_ {
       ///
       virtual uint16_t getYPosition() const override;
             
-      /// @brief Queries the absolute wheel-position.
-      /// @returns The absolute wheel-position.
+      /// @brief Queries the absolute vertical wheel-position.
+      /// @returns The absolute vertical wheel-position.
       ///
-      virtual int8_t getWheelPosition() const override;
+      virtual int8_t getVerticalWheel() const override;
+            
+      /// @brief Queries the absolute horizontal wheel-position.
+      /// @returns The absolute horizontal wheel-position.
+      ///
+      virtual int8_t getHorizontalWheel() const override;
           
       /// @brief Checks if the report is empty.
       /// @details Empty means that no buttons are active and
@@ -118,7 +130,7 @@ class AbsoluteMouseReport : public papilio::AbsoluteMouseReport_ {
       ///        to the simulator's log stream.
       /// @param add_indent An additional indentation string.
       ///
-      virtual void dump(const Simulator &simulator, const char *add_indent = "") const override;
+      virtual void dump(const papilio::Simulator &simulator, const char *add_indent = "") const override;
       
       /// @brief Associates the object with new report data.
       /// @param report_data The new report data struct.

@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "actions/Action_.h"
+#include "papilio/actions/Action_.h"
 
 #include "kaleidoscope/layers.h"
 
@@ -41,7 +41,7 @@ class AssertTopActiveLayerIs {
       
    private:
       
-      class Action : public Action_ {
+      class Action : public papilio::Action_ {
    
          public:
 
@@ -64,7 +64,7 @@ class AssertTopActiveLayerIs {
             int layer_id_;
       };
    
-   KT_AUTO_DEFINE_ACTION_INVENTORY(AssertTopActiveLayerIs)
+   PAPILIO_AUTO_DEFINE_ACTION_INVENTORY(AssertTopActiveLayerIs)
 };
    
 } // namespace actions

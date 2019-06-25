@@ -19,8 +19,8 @@
 #ifdef KALEIDOSCOPE_VIRTUAL_BUILD
 
 #include "Kaleidoscope-Simulator.h"
-#include "aux/terminal_escape_sequences.h"
-#include "vendors/keyboardio/model01.h"
+#include "papilio/aux/terminal_escape_sequences.h"
+#include "kaleidoscope_simulator/vendors/keyboardio/model01.h"
 
 #include <iostream>
    
@@ -31,7 +31,7 @@ namespace simulator {
    
 void runSimulator(Simulator &simulator) {
 
-   using namespace terminal_escape_sequences;
+   using namespace papilio::terminal_escape_sequences;
    
    // Activate the rainbow wave LED effect
    //
@@ -44,7 +44,7 @@ void runSimulator(Simulator &simulator) {
    
    simulator.runRealtime(10000, // 50000 cycles
       [&]() {
-         std::cout << terminal_escape_sequences::cursor_to_upper_left << std::flush;
+         std::cout << cursor_to_upper_left << std::flush;
          renderKeyboard(simulator, keyboardio::model01::ascii_keyboard);
       }
    );

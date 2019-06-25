@@ -16,8 +16,8 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "reports/MouseReport.h"
-#include "Simulator.h"
+#include "kaleidoscope_simulator/reports/MouseReport.h"
+#include "papilio/Simulator.h"
  
 namespace kaleidoscope {
 namespace simulator {
@@ -40,12 +40,12 @@ namespace simulator {
    this->setReportData(report_data);
 }
 
-std::shared_ptr<Report_> MouseReport::clone() const
+std::shared_ptr<papilio::Report_> MouseReport::clone() const
 {
-   return std::shared_ptr<Report_>{ new MouseReport{*this} };
+   return std::shared_ptr<papilio::Report_>{ new MouseReport{*this} };
 }
 
-bool MouseReport::equals(const MouseReport &other) const
+bool MouseReport::equals(const papilio::Report_ &other) const
 {
    const MouseReport *other_mr =
       dynamic_cast<const MouseReport *>(&other);
@@ -104,7 +104,7 @@ bool MouseReport::isEmpty() const
        && (report_data_.hWheel == 0);
 }
 
-void MouseReport::dump(const Simulator &simulator, const char *add_indent) const
+void MouseReport::dump(const papilio::Simulator &simulator, const char *add_indent) const
 {
   simulator.log() << add_indent << "Mouse report content:";
   simulator.log() << add_indent << "  left button: " << this->isLeftButtonPressed();

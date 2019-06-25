@@ -19,7 +19,7 @@
 #pragma once
 
 #include "MultiReport/Mouse.h"
-#include "papilio/src/reports/MouseReport_.h"
+#include "papilio/reports/MouseReport_.h"
 
 // Undefine some macros defined by Arduino
 //
@@ -37,14 +37,14 @@ class Simulator;
   
 /// @brief An interface hat facilitates analyzing mouse reports.
 ///
-class MouseReport : public Report_ {
+class MouseReport : public papilio::MouseReport_ {
    
    public:
       
       typedef HID_MouseReport_Data_t ReportDataType;
       
       static constexpr uint8_t hid_report_type_ = HID_REPORTID_MOUSE;
-      
+
       /// @brief Default consturctor.
       /// @details Creates an empty report.
       ///
@@ -61,13 +61,20 @@ class MouseReport : public Report_ {
       ///
       MouseReport(const HID_MouseReport_Data_t &report_data);
       
-      virtual std::shared_ptr<Report_> clone() const override;
+      template<typename..._Args>
+      static std::shared_ptr<MouseReport> create(_Args &&... args) {
+         return std::shared_ptr<MouseReport>{
+            new MouseReport{std::forward<_Args>(args)...}
+         };
+      }
+      
+      virtual std::shared_ptr<papilio::Report_> clone() const override;
       
       /// @brief Checks equality with another report.
       /// @param other Another report to compare with.
       /// @returns [bool] True if both reports are equal.
       ///
-      virtual bool equals(const MouseReport &other) const override;
+      virtual bool equals(const papilio::Report_ &other) const override;
       
       /// @brief Checks if a set of buttons is pressed.
       /// @param button_state The state of the mouse buttons to check.
@@ -120,7 +127,7 @@ class MouseReport : public Report_ {
       ///        to the simulator's log stream.
       /// @param add_indent An additional indentation string.
       ///
-      virtual void dump(const Simulator &simulator, const char *add_indent = "") const override;
+      virtual void dump(const papilio::Simulator &simulator, const char *add_indent = "") const override;
       
       /// @brief Associates the object with new report data.
       /// @param report_data The new report data struct.

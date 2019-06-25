@@ -1,6 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Simulator -- A C++ testing API for the Kaleidoscope keyboard 
- *                         firmware.
+ * Papilio - A keyboard simulation framework 
  * Copyright (C) 2019  noseglasses (shinynoseglasses@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -18,20 +17,26 @@
 
 #pragma once
 
-#include "papilio/src/Simulator.h"
+#include <sstream>
+#include <exception>
 
-/// @namespace kaleidoscope
-///
 namespace kaleidoscope {
-
-/// @namespace simulator
-///
 namespace simulator {
    
-class Simulator : public papilio::Simulator
+/// @private
+///
+struct OStringStreamWrapper
 {
-   Simulator();
+   template<typename _T>
+   OStringStreamWrapper &operator<<(const _T &t) { osstream_ << t; return *this; }
+   
+   operator const char *() { return osstream_.str().c_str(); }
+   
+   std::ostringstream osstream_;
 };
 
+#define KS_T_EXCEPTION(...)                                                    \
+   throw std::runtime_error(OStringStreamWrapper() << __VA_ARGS__);
+   
 } // namespace simulator
 } // namespace kaleidoscope

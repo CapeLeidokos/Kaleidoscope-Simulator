@@ -18,18 +18,31 @@
 
 #pragma once
 
+#include "papilio/Simulator.h"
+
+/// @namespace kaleidoscope
+///
 namespace kaleidoscope {
+
+/// @namespace simulator
+///
 namespace simulator {
    
-class Simulator;
-   
-/// @brief Renders a keyboard's asscii representation.
-///
-/// @param simulator The parent simulator object.
-/// @param ascii_keyboard The ascii representation of the keyboards
-///        key layout.
-///
-void renderKeyboard(const Simulator &simulator, const char *ascii_keyboard);
+class Simulator : public papilio::Simulator
+{
+   public:
+      
+      /// @brief Access the global simulator singleton.
+      ///
+      static Simulator &getInstance();
+      
+   private:
+      
+      Simulator(std::ostream &out);
+      
+      static void processHIDReport(uint8_t id, const void* data, 
+                                    int len, int result);
+};
 
 } // namespace simulator
 } // namespace kaleidoscope
