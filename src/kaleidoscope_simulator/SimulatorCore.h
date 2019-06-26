@@ -23,6 +23,8 @@
 namespace kaleidoscope {
 namespace simulator {
    
+/// @brief A Kaleidoscope specific simulator core class.
+///
 class SimulatorCore : public papilio::SimulatorCore_
 {
    public:

@@ -7,22 +7,12 @@ A development, debugging and testing API for virtual Kaleidoscope firmware build
 The scope of Kaleidoscope-Simulator is to provide an API that allows to bundle
 integration tests with the keyboard firmware sketch file.
 
-Tests are executed by a virtual firmware which is a firmware 
-build to run on the host platform, e.g. an x86 system, 
-rather than on the actual physical keyboard.
+Kaleidoscope-Simulator relies on the two libraries [Papilio](https://github.com/CapeLeidokos/Papilio.git) and
+[Aglais](https://github.com/CapeLeidokos/Aglais.git) for the simulation
+infrastructure and the I/O recorder data format that is used to
+recode keyboard sessions and replay them with the simulator.
 
-Most parts of the physical keyboard's internal states are also represented 
-in the simulated keyboard. Among those the current keymaps, LED states, EEPROM, ...
-For more information, see Kaleidoscope's documentation of virtual builds.
-
-Apart from integration testing, the supported testing-API is also 
-meant to be used as a development tool.
-When e.g. being used together with a debugger like `gdb`, Kaleidoscope-Simulator's 
-unique features can help to deal with complex error scenarios that are otherwise
-hard to debug with the firmware traditionally running on the device.
-
-Additionally, Kaleidoscope-Simulator comes with an ASCII 
-visualization of the keyboard covering keyboard keycodes and LED colors.
+For a description of both aspects please refer to the README.md files of both dependencies.
 
 ## A brief example
 

@@ -28,6 +28,8 @@ namespace kaleidoscope {
 ///
 namespace simulator {
    
+/// @brief A Kaleidoscope specific simulator class.
+///
 class Simulator : public papilio::Simulator
 {
    public:
