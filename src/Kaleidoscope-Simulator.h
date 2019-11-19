@@ -22,10 +22,10 @@ namespace papilio {
 namespace actions {
    
 inline
-uint8_t toModifier(Key key) { return key.keyCode; }
+uint8_t toModifier(Key key) { return key.getKeyCode(); }
 
 inline
-uint8_t toKeycode(Key key) { return key.keyCode; }
+uint8_t toKeycode(Key key) { return key.getKeyCode(); }
 
 } // namespace actions
 } // namespace papilio

@@ -42,7 +42,7 @@ namespace simulator {
    
    HIDReportObserver::resetHook(&Simulator::processHIDReport);
    
-   KeyboardHardware.setEnableReadMatrix(false);
+   Kaleidoscope.device().keyScanner().setEnableReadMatrix(false);
 }
 
 Simulator &Simulator::getInstance() {

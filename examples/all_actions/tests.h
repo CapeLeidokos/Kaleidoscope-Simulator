@@ -270,14 +270,15 @@ void runSimulator(Simulator &simulator) {
                          1 /* num. cycles after each tap */,
                          CustomAction{
                             [&]() -> bool {
-                               simulator.log() << "KeyboardHardware.getCrgbAt(0, 0).r = " 
-                                 << (int)KeyboardHardware.getCrgbAt(0, 0).r;
+                               simulator.log() << "KeyboardHardware.getCrgbAt(KeyAddr{0, 0}).r = " 
+                                 << (int)KeyboardHardware.getCrgbAt(KeyAddr{0, 0}).r;
                                return true;
                             }
                          }
       );
       
-      PAPILIO_ASSERT_CONDITION(simulator, KeyboardHardware.getCrgbAt(0, 0).r == solid_red_level);
+      PAPILIO_ASSERT_CONDITION(simulator, 
+                               KeyboardHardware.getCrgbAt(KeyAddr{0, 0}).r == solid_red_level);
    }
    
    //***************************************************************************

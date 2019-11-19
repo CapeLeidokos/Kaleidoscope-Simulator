@@ -19,7 +19,6 @@
 #include "kaleidoscope_simulator/SimulatorCore.h"
 
 #include "Kaleidoscope.h"
-#include "Kaleidoscope-Hardware-Virtual.h"
 
 #include <map>
 
@@ -159,9 +158,7 @@ std::map<uint8_t, const char*> hid_code_to_string = {
    { 0x85 , ",   " }, // HID_KEYPAD_COMMA
    { 0x86 , "=   " } // HID_KEYPAD_EQUAL_SIGN
 };
-   
-using namespace kaleidoscope::hardware;
-   
+      
 unsigned long millis = 0;
    
 void SimulatorCore::init()
@@ -171,34 +168,43 @@ void SimulatorCore::init()
 
 void SimulatorCore::getKeyMatrixDimensions(uint8_t &rows, uint8_t &cols) const
 {
-   rows = KeyboardHardware.matrix_rows;
-   cols = KeyboardHardware.matrix_columns;
+   rows = kaleidoscope::Device::KeyScanner::matrix_rows;
+   cols = kaleidoscope::Device::KeyScanner::matrix_columns;
 }
 
 void SimulatorCore::pressKey(uint8_t row, uint8_t col)
 {
-   KeyboardHardware.setKeystate(row, col, Virtual::PRESSED);
+   Kaleidoscope.device().keyScanner().setKeystate(KeyAddr{row, col}, 
+         kaleidoscope::Device::Props::KeyScanner::KeyState::Pressed);
 }
 
 void SimulatorCore::releaseKey(uint8_t row, uint8_t col)
 {
-   KeyboardHardware.setKeystate(row, col, Virtual::NOT_PRESSED);
+   Kaleidoscope.device().keyScanner().setKeystate(KeyAddr{row, col}, 
+                     kaleidoscope::Device::Props::KeyScanner::KeyState::NotPressed);
 }
 
 void SimulatorCore::tapKey(uint8_t row, uint8_t col)
 {
-   KeyboardHardware.setKeystate(row, col, Virtual::TAP);
+   Kaleidoscope.device().keyScanner().setKeystate(KeyAddr{row, col}, 
+                     kaleidoscope::Device::Props::KeyScanner::KeyState::Tap);
 }
 
 bool SimulatorCore::isKeyPressed(uint8_t row, uint8_t col) const
 {
-   return KeyboardHardware.getKeystate(row, col) == Virtual::PRESSED;
+   return Kaleidoscope.device().keyScanner().getKeystate(KeyAddr{row, col}) 
+      == kaleidoscope::Device::Props::KeyScanner::KeyState::Pressed;
 }
 
-void SimulatorCore::getCurrentKeyLEDColor(uint8_t row, uint8_t col, 
+uint8_t SimulatorCore::getNumLEDs() const 
+{
+   return kaleidoscope::Device::Props::LEDDriverProps::led_count;
+}
+
+void SimulatorCore::getCurrentKeyLEDColor(uint8_t i, 
                                   uint8_t &red, uint8_t &green, uint8_t &blue) const
 {
-   auto color = KeyboardHardware.getCrgbAt(row, col);
+   auto color = Kaleidoscope.device().getCrgbAt(i);
    
    red = color.r;
    green = color.g;
@@ -208,13 +214,13 @@ void SimulatorCore::getCurrentKeyLEDColor(uint8_t row, uint8_t col,
 void SimulatorCore::getCurrentKeyLabel(uint8_t row, uint8_t col,
                                       std::string &label_string) const
 {
-   auto key = Layer.lookupOnActiveLayer(row, col);
+   auto key = Layer.lookupOnActiveLayer(KeyAddr{row, col});
          
-   if(key.flags == KEY_FLAGS) {
+   if(key.getFlags() == KEY_FLAGS) {
       
       // Map the keycode to a string that matches the key
       //            
-      auto it = hid_code_to_string.find(key.keyCode);
+      auto it = hid_code_to_string.find(key.getKeyCode());
       if(it != hid_code_to_string.end()) {
          label_string = it->second;
       }
@@ -448,7 +454,7 @@ const char *SimulatorCore::keycodeToName(uint8_t keycode) const {
    switch(keycode) {
       
 #define DEFINE_KEY_CASE(KEY) \
-      case (Key_##KEY).keyCode: \
+      case (Key_##KEY).getKeyCode(): \
          return #KEY; \
          break;
       
