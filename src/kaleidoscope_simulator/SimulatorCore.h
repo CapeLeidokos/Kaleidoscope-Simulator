@@ -43,7 +43,7 @@ class SimulatorCore : public papilio::SimulatorCore_
       
       virtual uint8_t getNumLEDs() const override;
 
-      virtual void getCurrentKeyLEDColor(uint8_t i, 
+      virtual void getCurrentKeyLEDColor(uint8_t key_offset, 
                                   uint8_t &red, uint8_t &green, uint8_t &blue) const override;
 
       virtual void getCurrentKeyLabel(uint8_t row, uint8_t col,

@@ -201,9 +201,11 @@ uint8_t SimulatorCore::getNumLEDs() const
    return kaleidoscope::Device::Props::LEDDriverProps::led_count;
 }
 
-void SimulatorCore::getCurrentKeyLEDColor(uint8_t i, 
+void SimulatorCore::getCurrentKeyLEDColor(uint8_t key_offset, 
                                   uint8_t &red, uint8_t &green, uint8_t &blue) const
 {
+   auto i = kaleidoscope::Device::Props::LEDDriverProps::getLedIndex(key_offset);
+   
    auto color = Kaleidoscope.device().getCrgbAt(i);
    
    red = color.r;
