@@ -35,7 +35,7 @@ void runSimulator(Simulator &simulator) {
    
    using namespace actions;
    
-   //;dool :DOOLsimulator.setQuiet();
+   //simulator.setQuiet();
    
    auto test = simulator.newTest("Aglais test");
       
