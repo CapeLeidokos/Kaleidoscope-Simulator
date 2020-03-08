@@ -22,6 +22,7 @@
 
 #include "kaleidoscope/key_defs.h"
 #include "papilio/reports/KeyboardReport_.h"
+#include "MultiReport/Keyboard.h"
 
 // Undefine some macros defined by Arduino
 //
